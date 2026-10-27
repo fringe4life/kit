@@ -695,6 +695,79 @@ importers:
         specifier: 'catalog:'
         version: 8.3.0(@types/node@22.20.4)(esbuild@0.28.1)(yaml@2.9.1)
 
+  packages/enhanced-fonts:
+    dependencies:
+      '@sveltejs/vite-plugin-svelte':
+        specifier: ^7.0.0
+        version: 7.3.1(svelte@5.57.1(@typescript-eslint/types@8.70.1))(vite@8.3.0(@types/node@22.20.4)(esbuild@0.28.1)(yaml@2.9.1))
+      unifont:
+        specifier: ^1.0.0
+        version: 1.0.3
+    devDependencies:
+      '@types/node':
+        specifier: 'catalog:'
+        version: 22.20.4
+      '@typescript/native':
+        specifier: 'catalog:'
+        version: typescript@7.0.2
+      svelte:
+        specifier: 'catalog:'
+        version: 5.57.1(@typescript-eslint/types@8.70.1)
+      vite:
+        specifier: 'catalog:'
+        version: 8.3.0(@types/node@22.20.4)(esbuild@0.28.1)(yaml@2.9.1)
+      vitest:
+        specifier: 'catalog:'
+        version: 5.0.1(@opentelemetry/api@1.9.1)(@types/node@22.20.4)(@vitest/browser-playwright@5.0.1)(@vitest/ui@5.0.1)(jsdom@30.1.0)(vite@8.3.0(@types/node@22.20.4)(esbuild@0.28.1)(yaml@2.9.1))
+
+  packages/enhanced-fonts/test/apps/basics:
+    devDependencies:
+      '@sveltejs/adapter-static':
+        specifier: workspace:*
+        version: link:../../../../adapter-static
+      '@sveltejs/enhanced-fonts':
+        specifier: workspace:^
+        version: link:../../..
+      '@sveltejs/kit':
+        specifier: workspace:^
+        version: link:../../../../kit
+      '@sveltejs/vite-plugin-svelte':
+        specifier: 'catalog:'
+        version: 7.3.1(svelte@5.57.1(@typescript-eslint/types@8.70.1))(vite@8.3.0(@types/node@22.20.4)(esbuild@0.28.1)(yaml@2.9.1))
+      svelte:
+        specifier: 'catalog:'
+        version: 5.57.1(@typescript-eslint/types@8.70.1)
+      vite:
+        specifier: 'catalog:'
+        version: 8.3.0(@types/node@22.20.4)(esbuild@0.28.1)(yaml@2.9.1)
+      vitest:
+        specifier: 'catalog:'
+        version: 5.0.1(@opentelemetry/api@1.9.1)(@types/node@22.20.4)(@vitest/browser-playwright@5.0.1)(@vitest/ui@5.0.1)(jsdom@30.1.0)(vite@8.3.0(@types/node@22.20.4)(esbuild@0.28.1)(yaml@2.9.1))
+
+  packages/enhanced-fonts/test/apps/unknown-font:
+    devDependencies:
+      '@sveltejs/adapter-static':
+        specifier: workspace:*
+        version: link:../../../../adapter-static
+      '@sveltejs/enhanced-fonts':
+        specifier: workspace:^
+        version: link:../../..
+      '@sveltejs/kit':
+        specifier: workspace:^
+        version: link:../../../../kit
+      '@sveltejs/vite-plugin-svelte':
+        specifier: 'catalog:'
+        version: 7.3.1(svelte@5.57.1(@typescript-eslint/types@8.70.1))(vite@8.3.0(@types/node@22.20.4)(esbuild@0.28.1)(yaml@2.9.1))
+      svelte:
+        specifier: 'catalog:'
+        version: 5.57.1(@typescript-eslint/types@8.70.1)
+      vite:
+        specifier: 'catalog:'
+        version: 8.3.0(@types/node@22.20.4)(esbuild@0.28.1)(yaml@2.9.1)
+      vitest:
+        specifier: 'catalog:'
+        version: 5.0.1(@opentelemetry/api@1.9.1)(@types/node@22.20.4)(@vitest/browser-playwright@5.0.1)(@vitest/ui@5.0.1)(jsdom@30.1.0)(vite@8.3.0(@types/node@22.20.4)(esbuild@0.28.1)(yaml@2.9.1))
+
   packages/enhanced-img:
     dependencies:
       '@sveltejs/vite-plugin-svelte':
@@ -3762,6 +3835,9 @@ packages:
   flatted@3.4.4:
     resolution: {integrity: sha512-5+ybhBZANEJxaH3X5evAFatUxLfEHSr7n6kYJ+1Qd0mUqr4eu9gIf6GDbWHf8RJijHrjjO8G+la14SlL2SeS1Q==}
 
+  fnv1a-64@0.1.2:
+    resolution: {integrity: sha512-mJbcILTPybAR1jdOwt/lVv8N2cffeJFFP+gVbSAwLEx1ujXH27RpPd8Rokec/KX9c76UYIB6Co+H4lQzxPnJfA==}
+
   fsevents@2.3.3:
     resolution: {integrity: sha512-5xoDfX+fL7faATnagmWPpbFtwh/R77WmMMqqHGS65C3vvB0YHrgF+B1YmZ3441tMj5n63k0212XNoJwzlhffQw==}
     engines: {node: ^8.16.0 || ^10.6.0 || >=11.0.0}
@@ -4505,6 +4581,9 @@ packages:
 
   unenv@2.0.0-rc.24:
     resolution: {integrity: sha512-i7qRCmY42zmCwnYlh9H2SvLEypEFGye5iRmEMKjcGi7zk9UquigRjFtTLz0TYqr0ZGLZhaMHl/foy1bZR+Cwlw==}
+
+  unifont@1.0.3:
+    resolution: {integrity: sha512-XGnEwj5sWdCbiBX01mWLSBncS0yMRjnLygau3IfdOlfjMacNIQvTGW4VH7pWBq+gGWArfSef/CensMLjMmIr/A==}
 
   uri-js@4.4.1:
     resolution: {integrity: sha512-7rKUyy33Q1yc98pQ1DAmLtwX109F7TIfWlW1Ydo8Wl1ii1SeHieeh0HHfPeL2fMXK6z0s8ecKs9frCuLJvndBg==}
@@ -6403,6 +6482,8 @@ snapshots:
 
   flatted@3.4.4: {}
 
+  fnv1a-64@0.1.2: {}
+
   fsevents@2.3.3:
     optional: true
 
@@ -7099,6 +7180,13 @@ snapshots:
   unenv@2.0.0-rc.24:
     dependencies:
       pathe: 2.0.3
+
+  unifont@1.0.3:
+    dependencies:
+      css-tree: 3.2.1
+      fnv1a-64: 0.1.2
+      std-env: 4.2.0
+      undici: 8.10.2
 
   uri-js@4.4.1:
     dependencies:
