@@ -38,3 +38,35 @@ Apply the family with `font-family: var(--font-inter)` in CSS. Inject `@font-fac
 ```
 
 Preload is **off** by default. Pass `preload` only on the document that should hint the font. CSS custom properties must use the `--font-*` prefix. Default `font-display` is `swap`.
+
+## ESLint
+
+This package ships rules as `@sveltejs/enhanced-fonts/eslint` (not a separate npm name). Install `eslint`, `eslint-plugin-svelte`, and `svelte-eslint-parser` as peers, then enable the recommended flat config:
+
+```js
+import svelte from 'eslint-plugin-svelte';
+import svelteParser from 'svelte-eslint-parser';
+import enhancedFonts from '@sveltejs/enhanced-fonts/eslint';
+
+/** @type {import('eslint').Linter.Config[]} */
+export default [
+  ...svelte.configs.recommended,
+  {
+    files: ['**/*.svelte', '**/app.html'],
+    languageOptions: {
+      parser: svelteParser
+    }
+  },
+  ...enhancedFonts.configs.recommended
+];
+```
+
+`eslint-plugin-svelte` already parses `.svelte` files. The extra `app.html` block is so leftover Google CDN `<link>` tags in the HTML shell are visible to the same parser.
+
+| Rule                                           | What it flags                                                                                                                                                               |
+| ---------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `@sveltejs/enhanced-fonts/no-google-fonts-cdn` | `<link href>` and `@import` to `fonts.googleapis.com` or `fonts.gstatic.com` in `.svelte` and `app.html`. Self-hosted `.woff2`, comments, Bunny, and Fontshare are allowed. |
+| `@sveltejs/enhanced-fonts/no-duplicate-font`   | Two `<Font>` tags in one file with the same literal `cssVariable`. Different variables are fine. `cssVariable={x}` is skipped. Cross-file duplicates are out of scope.      |
+| `@sveltejs/enhanced-fonts/css-variable-prefix` | Literal `cssVariable` values that are not `--font-*`.                                                                                                                       |
+
+These rules are a static check for leftover CDN links and in-file `<Font>` mistakes. Unknown `cssVariable` values still fail at build/SSR.
