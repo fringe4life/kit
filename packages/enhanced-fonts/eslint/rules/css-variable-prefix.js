@@ -1,6 +1,11 @@
 /** @import { Rule } from 'eslint' */
 import { is_font_css_variable } from '../../src/schema.js';
-import { element_name, get_attribute, literal_attribute_value } from '../utils.js';
+import {
+	get_attribute,
+	is_enhanced_font_element,
+	literal_attribute_value,
+	track_enhanced_font_imports
+} from '../utils.js';
 
 /** @type {Rule.RuleModule} */
 export const css_variable_prefix = {
@@ -16,20 +21,30 @@ export const css_variable_prefix = {
 		}
 	},
 	create(context) {
+		const imports = track_enhanced_font_imports();
+		/** @type {any[]} */
+		const elements = [];
+
 		return {
+			ImportDeclaration: imports.ImportDeclaration,
 			/** @param {any} node */
 			SvelteElement(node) {
-				if (element_name(node) !== 'Font') return;
-				const attribute = get_attribute(node, 'cssVariable');
-				const css_variable = literal_attribute_value(attribute);
-				if (css_variable === null) return;
-				if (is_font_css_variable(css_variable)) return;
+				elements.push(node);
+			},
+			'Program:exit'() {
+				for (const node of elements) {
+					if (!is_enhanced_font_element(node, imports.locals)) continue;
+					const attribute = get_attribute(node, 'cssVariable');
+					const css_variable = literal_attribute_value(attribute);
+					if (css_variable === null) continue;
+					if (is_font_css_variable(css_variable)) continue;
 
-				context.report({
-					node: attribute ?? node,
-					messageId: 'prefix',
-					data: { cssVariable: css_variable }
-				});
+					context.report({
+						node: attribute ?? node,
+						messageId: 'prefix',
+						data: { cssVariable: css_variable }
+					});
+				}
 			}
 		};
 	}

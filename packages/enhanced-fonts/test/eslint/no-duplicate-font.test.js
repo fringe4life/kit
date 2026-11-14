@@ -34,6 +34,21 @@ tester.run('no-duplicate-font', rules['no-duplicate-font'], {
 
 <Font cssVariable="--font-inter" />
 <Font cssVariable={x} />
+`),
+		svelte(`<script>
+	import Font from '$lib/other-font.svelte';
+</script>
+
+<Font cssVariable="--font-inter" />
+<Font cssVariable="--font-inter" />
+`),
+		svelte(`<script>
+	import Font from '@sveltejs/enhanced-fonts/Font.svelte';
+	import OtherFont from '$lib/other-font.svelte';
+</script>
+
+<Font cssVariable="--font-inter" />
+<OtherFont cssVariable="--font-inter" />
 `)
 	],
 	invalid: [
@@ -60,6 +75,16 @@ tester.run('no-duplicate-font', rules['no-duplicate-font'], {
 				{ messageId: 'duplicateFont', data: { cssVariable: '--font-inter' } },
 				{ messageId: 'duplicateFont', data: { cssVariable: '--font-inter' } }
 			]
+		},
+		{
+			...svelte(`<script>
+	import KitFont from '@sveltejs/enhanced-fonts/Font.svelte';
+</script>
+
+<KitFont cssVariable="--font-inter" />
+<KitFont cssVariable="--font-inter" />
+`),
+			errors: [{ messageId: 'duplicateFont', data: { cssVariable: '--font-inter' } }]
 		}
 	]
 });

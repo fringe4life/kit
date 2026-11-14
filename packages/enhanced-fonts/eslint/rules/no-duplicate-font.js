@@ -1,5 +1,10 @@
 /** @import { Rule } from 'eslint' */
-import { element_name, get_attribute, literal_attribute_value } from '../utils.js';
+import {
+	get_attribute,
+	is_enhanced_font_element,
+	literal_attribute_value,
+	track_enhanced_font_imports
+} from '../utils.js';
 
 /** @type {Rule.RuleModule} */
 export const no_duplicate_font = {
@@ -16,27 +21,36 @@ export const no_duplicate_font = {
 		}
 	},
 	create(context) {
-		/** @type {Set<string>} */
-		const seen = new Set();
+		const imports = track_enhanced_font_imports();
+		/** @type {any[]} */
+		const elements = [];
 
 		return {
+			ImportDeclaration: imports.ImportDeclaration,
 			/** @param {any} node */
 			SvelteElement(node) {
-				if (element_name(node) !== 'Font') return;
-				const attribute = get_attribute(node, 'cssVariable');
-				const css_variable = literal_attribute_value(attribute);
-				if (css_variable === null) return;
+				elements.push(node);
+			},
+			'Program:exit'() {
+				/** @type {Set<string>} */
+				const seen = new Set();
+				for (const node of elements) {
+					if (!is_enhanced_font_element(node, imports.locals)) continue;
+					const attribute = get_attribute(node, 'cssVariable');
+					const css_variable = literal_attribute_value(attribute);
+					if (css_variable === null) continue;
 
-				if (seen.has(css_variable)) {
-					context.report({
-						node: attribute ?? node,
-						messageId: 'duplicateFont',
-						data: { cssVariable: css_variable }
-					});
-					return;
+					if (seen.has(css_variable)) {
+						context.report({
+							node: attribute ?? node,
+							messageId: 'duplicateFont',
+							data: { cssVariable: css_variable }
+						});
+						continue;
+					}
+
+					seen.add(css_variable);
 				}
-
-				seen.add(css_variable);
 			}
 		};
 	}

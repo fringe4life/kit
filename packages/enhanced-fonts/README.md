@@ -63,10 +63,10 @@ export default [
 
 `eslint-plugin-svelte` already parses `.svelte` files. The extra `app.html` block is so leftover Google CDN `<link>` tags in the HTML shell are visible to the same parser.
 
-| Rule                                           | What it flags                                                                                                                                                               |
-| ---------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `@sveltejs/enhanced-fonts/no-google-fonts-cdn` | `<link href>` and `@import` to `fonts.googleapis.com` or `fonts.gstatic.com` in `.svelte` and `app.html`. Self-hosted `.woff2`, comments, Bunny, and Fontshare are allowed. |
-| `@sveltejs/enhanced-fonts/no-duplicate-font`   | Two `<Font>` tags in one file with the same literal `cssVariable`. Different variables are fine. `cssVariable={x}` is skipped. Cross-file duplicates are out of scope.      |
-| `@sveltejs/enhanced-fonts/css-variable-prefix` | Literal `cssVariable` values that are not `--font-*`.                                                                                                                       |
+| Rule                                           | What it flags                                                                                                                                                                                                                                                      |
+| ---------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `@sveltejs/enhanced-fonts/no-google-fonts-cdn` | `<link href>` and `@import` to `fonts.googleapis.com` or `fonts.gstatic.com` in `.svelte` and `app.html`. Self-hosted `.woff2`, comments, `@import` text inside a CSS string, Bunny, and Fontshare are allowed. Comments between `@import` and the URL still flag. |
+| `@sveltejs/enhanced-fonts/no-duplicate-font`   | Two enhanced-fonts `<Font>` tags in one file with the same literal `cssVariable` (including import aliases). Different variables are fine. `cssVariable={x}` and unrelated `Font` components are skipped. Cross-file duplicates are out of scope.                  |
+| `@sveltejs/enhanced-fonts/css-variable-prefix` | Literal `cssVariable` on an enhanced-fonts `<Font>` (including aliases) that is not `--font-*`. Unrelated components named `Font` are skipped.                                                                                                                     |
 
 These rules are a static check for leftover CDN links and in-file `<Font>` mistakes. Unknown `cssVariable` values still fail at build/SSR.

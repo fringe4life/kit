@@ -102,7 +102,13 @@ tester.run('no-google-fonts-cdn', rules['no-google-fonts-cdn'], {
 	</body>
 </html>
 `),
-		svelte(`<p>Do not copy https://fonts.googleapis.com/css into production.</p>`)
+		svelte(`<p>Do not copy https://fonts.googleapis.com/css into production.</p>`),
+		svelte(`<style>
+	.hint::before {
+		content: "@import url('https://fonts.googleapis.com/css2?family=Inter')";
+	}
+</style>
+`)
 	],
 	invalid: [
 		{
@@ -136,6 +142,13 @@ tester.run('no-google-fonts-cdn', rules['no-google-fonts-cdn'], {
 		{
 			...svelte(`<style>
 	@import 'https://fonts.googleapis.com/css?family=Roboto';
+</style>
+`),
+			errors: [{ messageId: 'googleCdn', data: { host: 'fonts.googleapis.com' } }]
+		},
+		{
+			...svelte(`<style>
+	@import /* font */ url('https://fonts.googleapis.com/css2?family=Inter');
 </style>
 `),
 			errors: [{ messageId: 'googleCdn', data: { host: 'fonts.googleapis.com' } }]
